@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Triveni Pathsala • Learning Hub</title>
+    <!-- Font Awesome 6 & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e3c72;
+            --accent: #f97316;
+            --bg: #f8fafd;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-soft: #475569;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.03);
+            --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.08);
+            --radius-sm: 14px;
+            --transition: 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        /* ===== HEADER ===== */
+        .main-header {
+            background: white;
+            box-shadow: 0 1px 12px rgba(0,0,0,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .logo-icon {
+            background: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
+        .logo-area:hover .logo-icon {
+            transform: scale(1.05);
+        }
+        .site-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+        .notify-icon {
+            background: #f1f5f9;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            cursor: pointer;
+            position: relative;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+        .notify-icon:hover {
+            background: #e2e8f0;
+        }
+        .notify-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 30px;
+            border: 2px solid white;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 20px 40px;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Welcome line */
+        .welcome-message {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            color: var(--text-soft);
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+            padding: 6px 0;
+        }
+        .welcome-message i {
+            color: #f59e0b;
+            font-size: 1.3rem;
+        }
+        .greeting-name {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        /* ===== IMAGE SLIDER ===== */
+        .slider-section {
+            margin: 0 0 20px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            background: #fff;
+        }
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .slides-wrapper {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.0);
+            will-change: transform;
+        }
+        .slide {
+            flex: 0 0 100%;
+            min-height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 0 8px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #cbd5e1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .dot.active {
+            background: var(--accent);
+            width: 24px;
+        }
+        .dot:hover {
+            background: #f97316;
+            transform: scale(1.3);
+        }
+
+        /* ===== RESOURCE GRID (directly after slider, no heading) ===== */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 14px;  /* subtle space after slider */
+            margin-bottom: 10px;
+        }
+        .resource-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px 10px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.25s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .resource-item:hover {
+            border-color: #f97316;
+            background: #fffaf5;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+        }
+        .resource-icon {
+            font-size: 1.7rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            transition: color 0.2s;
+        }
+        .resource-item:hover .resource-icon {
+            color: #f97316;
+        }
+        .resource-label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+        .resource-tag {
+            font-size: 0.6rem;
+            background: #f97316;
+            color: white;
+            padding: 3px 9px;
+            border-radius: 20px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer-nav {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 16px 20px;
+            margin-top: auto;
+        }
+        .footer-items {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            text-align: center;
+        }
+        .footer-item {
+            cursor: pointer;
+            color: #475569;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            transition: 0.2s;
+            font-size: 0.7rem;
+        }
+        .footer-item i {
+            font-size: 1.2rem;
+            color: var(--primary);
+            transition: color 0.2s;
+        }
+        .footer-item:hover {
+            color: #f97316;
+            background: #fef7ee;
+        }
+        .footer-item:hover i {
+            color: #f97316;
+        }
+        .copyright {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+        .chat-whatsapp {
+            position: relative;
+        }
+        .chat-whatsapp::after {
+            content: '💬';
+            position: absolute;
+            top: -6px;
+            right: -4px;
+            font-size: 0.7rem;
+        }
+
+        /* ===== NAME MODAL ===== */
+        .name-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+        .name-modal-overlay.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .name-modal {
+            background: white;
+            border-radius: 24px;
+            max-width: 380px;
+            width: 90%;
+            padding: 28px 22px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .name-modal h3 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        .name-modal p {
+            color: #64748b;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+        .name-modal input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 40px;
+            outline: none;
+            font-family: inherit;
+        }
+        .name-modal input:focus {
+            border-color: #f97316;
+        }
+        .name-modal button {
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border-radius: 40px;
+            width: 100%;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .name-modal button:hover {
+            background: #e2620e;
+        }
+
+        @media (max-width: 500px) {
+            .slide {
+                min-height: 160px;
+            }
+            .resource-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            .resource-item {
+                padding: 14px 6px;
+            }
+            .resource-icon {
+                font-size: 1.3rem;
+            }
+            .resource-label {
+                font-size: 0.7rem;
+            }
+        }
+        @media (min-width: 501px) and (max-width: 700px) {
+            .slide {
+                min-height: 200px;
+            }
+            .resource-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 701px) {
+            .slide {
+                min-height: 240px;
+            }
+            .resource-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="main-header">
+        <div class="header-container">
+            <div class="logo-area" onclick="window.location.href='/'" title="Triveni Pathsala Home">
+                <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+                <span class="site-name">Triveni Pathsala</span>
+            </div>
+            <div class="notify-icon" id="notificationBtn" title="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="notify-badge">3</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="welcome-message">
+            <i class="fas fa-hand-peace"></i>
+            <span>नमस्ते, <span class="greeting-name" id="greetingUser">Sumit Verma</span></span>
+        </div>
+
+        <!-- IMAGE SLIDER (no text, just images) -->
+        <div class="slider-section">
+            <div class="slider-container" id="sliderContainer">
+                <div class="slides-wrapper" id="slidesWrapper"></div>
+            </div>
+            <div class="dots" id="dotsContainer"></div>
+        </div>
+
+        <!-- RESOURCE CARDS (directly after slider, no heading) -->
+        <div class="resource-grid" id="resourceGrid"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-nav">
+        <div class="footer-items">
+            <div class="footer-item" data-link="/alpha-home">
+                <i class="fas fa-home"></i><span>Home</span>
+            </div>
+            <div class="footer-item" data-link="/my-purchases">
+                <i class="fas fa-shopping-bag"></i><span>My Purchases</span>
+            </div>
+            <div class="footer-item chat-whatsapp" data-link="whatsapp">
+                <i class="fab fa-whatsapp"></i><span>Chat</span>
+            </div>
+        </div>
+        <div class="copyright">© 2026 Triveni Pathsala • Made with ❤️ for students</div>
+    </div>
+
+    <script>
+        // ==================== NAME MODAL ====================
+        (function() {
+            const storedName = localStorage.getItem('alphaStudentName');
+            const greetingSpan = document.getElementById('greetingUser');
+            if (storedName && storedName.trim() !== "") {
+                if (greetingSpan) greetingSpan.innerText = storedName;
+                return;
+            }
+            const overlay = document.createElement('div');
+            overlay.className = 'name-modal-overlay';
+            overlay.innerHTML = `
+                <div class="name-modal">
+                    <div style="font-size:2.4rem; color:#f97316; margin-bottom:6px;"><i class="fas fa-user-astronaut"></i></div>
+                    <h3>Welcome! 👋</h3>
+                    <p>Enter your name to personalize your dashboard</p>
+                    <input type="text" id="studentNameInput" placeholder="Your name" autocomplete="off">
+                    <button id="submitNameBtn">Continue</button>
+                </div>`;
+            document.body.appendChild(overlay);
+            const input = document.getElementById('studentNameInput');
+            const submit = document.getElementById('submitNameBtn');
+            function saveAndClose() {
+                let name = input.value.trim() || "Student";
+                if (greetingSpan) greetingSpan.innerText = name;
+                localStorage.setItem('alphaStudentName', name);
+                overlay.classList.add('hide');
+                setTimeout(() => overlay.remove(), 300);
+            }
+            submit.addEventListener('click', saveAndClose);
+            input.addEventListener('keypress', e => { if (e.key === 'Enter') saveAndClose(); });
+            setTimeout(() => input.focus(), 150);
+        })();
+
+        // ==================== IMAGE SLIDER ====================
+        const slidesData = [
+            { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj-xcOx44yHrFrFT1dECg9PTgxWEmgIci1l-7kSaQCiPI6vf7Nofgd2Q1lPtIox-l4JHuRNki1ff3FgoXgKqcpQ1tmv_LRwhgEB7vFMbdQIg9SoD4mlJqLKoRUuaWgsonhpqo3DrjpjmNkzuVpBnaqDLk6BsI1yyOlmRk3bzYclvTnf9E2SeWc-y7uF98xZ/s4000/TRIVENI%20PATHSHALA-1.jpg" },
+            { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgislXI3Lp7i70aKu_vnog9PGdcSQLqEAuvNDZ6wLoPVxlCWTJM0PRKFxo7KU6CSpNuua5PCPM9ULmMqXBIcE5e1kPGxw_6iJJ7N7Gc9Q1fItH1RzSzCYiXcFevyAerJIHS4GZhsmcBXCCkOsccs23qEl7x2HnTK84uyb0n_5nkLZNhyphenhyphen7NFRY-GE8A-DIxc/s6000/condor-wei-2-xVyphdcCY-unsplash.jpg" },
+              { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgFI6IGmydL40avO7lSmhja9KMq6Oeh6crxChk50B7roLxI52LqCn8swXIcDonIusw4z_28Lcv0o53vsqvdLpFk5KIBiWuleZQWhQTtPYiVtV9EmkexJip0Lvf4kggLOxlR6gc63HEEJRTvEW_6KMSK6qaEODj8Vkeh-Afbm8dGYWlpImI9Eria5sjiBn5u/s320/class%2012.jpg" }
+        ];
+
+        let currentIndex = 0;
+        const totalSlides = slidesData.length;
+        const slidesWrapper = document.getElementById('slidesWrapper');
+        const dotsContainer = document.getElementById('dotsContainer');
+        let autoInterval;
+
+        function buildSlides() {
+            slidesWrapper.innerHTML = slidesData.map(slide =>
+                `<div class="slide" style="background-image: url('${slide.img}');"></div>`
+            ).join('');
+        }
+
+        function createDots() {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i === currentIndex) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentIndex);
+            });
+        }
+
+        function goToSlide(index) {
+            if (index < 0) index = totalSlides - 1;
+            if (index >= totalSlides) index = 0;
+            currentIndex = index;
+            slidesWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateDots();
+            resetAutoPlay();
+        }
+
+        function nextSlide() { goToSlide(currentIndex + 1); }
+        function prevSlide() { goToSlide(currentIndex - 1); }
+
+        function resetAutoPlay() {
+            if (autoInterval) clearInterval(autoInterval);
+            autoInterval = setInterval(() => nextSlide(), 5000);
+        }
+
+        function initSlider() {
+            buildSlides();
+            createDots();
+            goToSlide(0);
+            const container = document.getElementById('sliderContainer');
+            container.addEventListener('mouseenter', () => clearInterval(autoInterval));
+            container.addEventListener('mouseleave', resetAutoPlay);
+
+            let touchStartX = 0;
+            container.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+                clearInterval(autoInterval);
+            }, { passive: true });
+            container.addEventListener('touchend', e => {
+                const diff = touchStartX - e.changedTouches[0].screenX;
+                if (Math.abs(diff) > 40) {
+                    diff > 0 ? nextSlide() : prevSlide();
+                }
+                resetAutoPlay();
+            });
+        }
+
+        // ==================== RESOURCE GRID (links unchanged) ====================
+        const resources = [
+            { label: "Student Section", icon: "fas fa-user-lock", link: "./register.html" },
+            { label: "New Admission", icon: "fas fa-clipboard-list", link: "./addmision.html", tag: "2026" },
+            { label: "Students ID Card", icon: "fas fa-id-card", link: "./login.html" },
+            { label: "Notifications", icon: "fas fa-bullhorn", link: "./index.html" },
+            { label: "Fee Payment", icon: "fas fa-qrcode", link: "./payment.html" },
+            { label: "Paid Classes", icon: "fas fa-video", link: "./online-classes.html", tag: "LIVE" },
+            { label: "Books PDF", icon: "fas fa-book-open", link: "./books-pdf.html", tag: "NEW" },
+            { label: "Class Notes", icon: "fas fa-pencil-alt", link: "./class-notes.html", tag: "PDF" },
+        ];
+
+        function buildResourceGrid() {
+            const grid = document.getElementById('resourceGrid');
+            grid.innerHTML = resources.map(item => `
+                <a href="${item.link}" class="resource-item">
+                    <div class="resource-icon"><i class="${item.icon}"></i></div>
+                    <span class="resource-label">${item.label}</span>
+                    ${item.tag ? `<div class="resource-tag">${item.tag}</div>` : ''}
+                </a>
+            `).join('');
+        }
+
+        // ==================== FOOTER & WHATSAPP ====================
+        function setupFooter() {
+            const items = document.querySelectorAll('.footer-item');
+            const wsNumber = '916202320527';
+            const msg = encodeURIComponent('Hello Triveni Pathsala! 👋 I need help.');
+            const wsUrl = `https://wa.me/${wsNumber}?text=${msg}`;
+            const linkMap = { 'Home': '/alpha-home', 'My Purchases': '/my-purchases' };
+
+            items.forEach(item => {
+                const span = item.querySelector('span')?.innerText;
+                const isWs = item.getAttribute('data-link') === 'whatsapp';
+                item.addEventListener('click', () => {
+                    if (isWs) {
+                        window.open(wsUrl, '_blank', 'noopener');
+                        return;
+                    }
+                    const dest = linkMap[span] || item.getAttribute('data-link') || '#';
+                    window.location.href = dest;
+                });
+            });
+        }
+
+        // ==================== NOTIFICATION ====================
+        document.getElementById('notificationBtn').addEventListener('click', () => {
+            alert("🔔 Notifications:\n\n• New batch starting soon!\n• Free weekly test uploaded.");
+        });
+
+        // ==================== START ====================
+        window.addEventListener('DOMContentLoaded', () => {
+            initSlider();
+            buildResourceGrid();
+            setupFooter();
+        });
+    </script>
+</body>
+</html>
